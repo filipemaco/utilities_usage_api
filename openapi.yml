@@ -1,0 +1,1144 @@
+openapi: 3.0.2
+info:
+  title: 'Utilities API'
+  version: '1.0.0'
+  description: This service is responsible for the usage of each user, usages types, users edition and authentication
+
+paths:
+  /api/v1/users/:
+    get:
+      security:
+        - bearerAuth: []
+      operationId: listCustomUsers
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - Users
+  /api/v1/users/{id}/:
+    get:
+      security:
+        - bearerAuth: []
+      operationId: retrieveCustomUser
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this custom user.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - Users
+    put:
+      security:
+        - bearerAuth: []
+      operationId: updateCustomUser
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this custom user.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - Users
+    patch:
+      security:
+        - bearerAuth: []
+      operationId: partialUpdateCustomUser
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this custom user.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - Users
+    delete:
+      security:
+        - bearerAuth: []
+      operationId: destroyCustomUser
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this custom user.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - Users
+  /api/v1/usages/types/:
+    get:
+      security:
+        - bearerAuth: []
+      operationId: listUsageTypes
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: name
+        required: false
+        in: query
+        description: name
+        schema:
+          type: string
+      - name: name__icontains
+        required: false
+        in: query
+        description: name__icontains
+        schema:
+          type: string
+      - name: unit
+        required: false
+        in: query
+        description: unit
+        schema:
+          type: string
+      - name: factor
+        required: false
+        in: query
+        description: factor
+        schema:
+          type: string
+      - name: factor__gte
+        required: false
+        in: query
+        description: factor__gte
+        schema:
+          type: string
+      - name: factor__lte
+        required: false
+        in: query
+        description: factor__lte
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UsageType'
+          description: ''
+      tags:
+      - Usage Type
+    post:
+      security:
+        - bearerAuth: []
+      operationId: createUsageType
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsageType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsageType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsageType'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageType'
+          description: ''
+      tags:
+      - Usage Type
+  /api/v1/usages/types/{id}/:
+    get:
+      security:
+        - bearerAuth: []
+      operationId: retrieveUsageType
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this usage type.
+        schema:
+          type: string
+      - name: name
+        required: false
+        in: query
+        description: name
+        schema:
+          type: string
+      - name: name__icontains
+        required: false
+        in: query
+        description: name__icontains
+        schema:
+          type: string
+      - name: unit
+        required: false
+        in: query
+        description: unit
+        schema:
+          type: string
+      - name: factor
+        required: false
+        in: query
+        description: factor
+        schema:
+          type: string
+      - name: factor__gte
+        required: false
+        in: query
+        description: factor__gte
+        schema:
+          type: string
+      - name: factor__lte
+        required: false
+        in: query
+        description: factor__lte
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageType'
+          description: ''
+      tags:
+      - Usage Type
+    put:
+      security:
+        - bearerAuth: []
+      operationId: updateUsageType
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this usage type.
+        schema:
+          type: string
+      - name: name
+        required: false
+        in: query
+        description: name
+        schema:
+          type: string
+      - name: name__icontains
+        required: false
+        in: query
+        description: name__icontains
+        schema:
+          type: string
+      - name: unit
+        required: false
+        in: query
+        description: unit
+        schema:
+          type: string
+      - name: factor
+        required: false
+        in: query
+        description: factor
+        schema:
+          type: string
+      - name: factor__gte
+        required: false
+        in: query
+        description: factor__gte
+        schema:
+          type: string
+      - name: factor__lte
+        required: false
+        in: query
+        description: factor__lte
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsageType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsageType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsageType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageType'
+          description: ''
+      tags:
+      - Usage Type
+    patch:
+      security:
+        - bearerAuth: []
+      operationId: partialUpdateUsageType
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this usage type.
+        schema:
+          type: string
+      - name: name
+        required: false
+        in: query
+        description: name
+        schema:
+          type: string
+      - name: name__icontains
+        required: false
+        in: query
+        description: name__icontains
+        schema:
+          type: string
+      - name: unit
+        required: false
+        in: query
+        description: unit
+        schema:
+          type: string
+      - name: factor
+        required: false
+        in: query
+        description: factor
+        schema:
+          type: string
+      - name: factor__gte
+        required: false
+        in: query
+        description: factor__gte
+        schema:
+          type: string
+      - name: factor__lte
+        required: false
+        in: query
+        description: factor__lte
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsageType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsageType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsageType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageType'
+          description: ''
+      tags:
+      - Usage Type
+    delete:
+      security:
+        - bearerAuth: []
+      operationId: destroyUsageType
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this usage type.
+        schema:
+          type: string
+      - name: name
+        required: false
+        in: query
+        description: name
+        schema:
+          type: string
+      - name: name__icontains
+        required: false
+        in: query
+        description: name__icontains
+        schema:
+          type: string
+      - name: unit
+        required: false
+        in: query
+        description: unit
+        schema:
+          type: string
+      - name: factor
+        required: false
+        in: query
+        description: factor
+        schema:
+          type: string
+      - name: factor__gte
+        required: false
+        in: query
+        description: factor__gte
+        schema:
+          type: string
+      - name: factor__lte
+        required: false
+        in: query
+        description: factor__lte
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - Usage Type
+  /api/v1/usages/:
+    get:
+      security:
+        - bearerAuth: []
+      operationId: listUsages
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=400&limit=100
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?offset=200&limit=100
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Usage'
+          description: ''
+      tags:
+      - Usage
+    post:
+      security:
+        - bearerAuth: []
+      operationId: createUsage
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsageCreateUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsageCreateUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsageCreateUpdate'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageCreateUpdate'
+          description: ''
+      tags:
+      - Usage
+  /api/v1/usages/{id}/:
+    get:
+      security:
+        - bearerAuth: []
+      operationId: retrieveUsage
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this usage.
+        schema:
+          type: string
+      - name: usage_at__gte
+        required: false
+        in: query
+        description: usage_at__gte
+        schema:
+          type: string
+      - name: usage_at__lte
+        required: false
+        in: query
+        description: usage_at__lte
+        schema:
+          type: string
+      - name: usage_type__name
+        required: false
+        in: query
+        description: usage_type__name
+        schema:
+          type: string
+      - name: usage_type__name__icontains
+        required: false
+        in: query
+        description: usage_type__name__icontains
+        schema:
+          type: string
+      - name: amount__gte
+        required: false
+        in: query
+        description: amount__gte
+        schema:
+          type: string
+      - name: amount__lte
+        required: false
+        in: query
+        description: amount__lte
+        schema:
+          type: string
+      - name: calculated_emissions__gte
+        required: false
+        in: query
+        description: calculated_emissions__gte
+        schema:
+          type: string
+      - name: calculated_emissions__lte
+        required: false
+        in: query
+        description: calculated_emissions__lte
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usage'
+          description: ''
+      tags:
+      - Usage
+    put:
+      security:
+        - bearerAuth: []
+      operationId: updateUsage
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this usage.
+        schema:
+          type: string
+      - name: usage_at__gte
+        required: false
+        in: query
+        description: usage_at__gte
+        schema:
+          type: string
+      - name: usage_at__lte
+        required: false
+        in: query
+        description: usage_at__lte
+        schema:
+          type: string
+      - name: usage_type__name
+        required: false
+        in: query
+        description: usage_type__name
+        schema:
+          type: string
+      - name: usage_type__name__icontains
+        required: false
+        in: query
+        description: usage_type__name__icontains
+        schema:
+          type: string
+      - name: amount__gte
+        required: false
+        in: query
+        description: amount__gte
+        schema:
+          type: string
+      - name: amount__lte
+        required: false
+        in: query
+        description: amount__lte
+        schema:
+          type: string
+      - name: calculated_emissions__gte
+        required: false
+        in: query
+        description: calculated_emissions__gte
+        schema:
+          type: string
+      - name: calculated_emissions__lte
+        required: false
+        in: query
+        description: calculated_emissions__lte
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsageCreateUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsageCreateUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsageCreateUpdate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageCreateUpdate'
+          description: ''
+      tags:
+      - Usage
+    patch:
+      security:
+        - bearerAuth: []
+      operationId: partialUpdateUsage
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this usage.
+        schema:
+          type: string
+      - name: usage_at__gte
+        required: false
+        in: query
+        description: usage_at__gte
+        schema:
+          type: string
+      - name: usage_at__lte
+        required: false
+        in: query
+        description: usage_at__lte
+        schema:
+          type: string
+      - name: usage_type__name
+        required: false
+        in: query
+        description: usage_type__name
+        schema:
+          type: string
+      - name: usage_type__name__icontains
+        required: false
+        in: query
+        description: usage_type__name__icontains
+        schema:
+          type: string
+      - name: amount__gte
+        required: false
+        in: query
+        description: amount__gte
+        schema:
+          type: string
+      - name: amount__lte
+        required: false
+        in: query
+        description: amount__lte
+        schema:
+          type: string
+      - name: calculated_emissions__gte
+        required: false
+        in: query
+        description: calculated_emissions__gte
+        schema:
+          type: string
+      - name: calculated_emissions__lte
+        required: false
+        in: query
+        description: calculated_emissions__lte
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsageCreateUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UsageCreateUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UsageCreateUpdate'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageCreateUpdate'
+          description: ''
+      tags:
+      - Usage
+    delete:
+      security:
+        - bearerAuth: []
+      operationId: destroyUsage
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this usage.
+        schema:
+          type: string
+      - name: usage_at__gte
+        required: false
+        in: query
+        description: usage_at__gte
+        schema:
+          type: string
+      - name: usage_at__lte
+        required: false
+        in: query
+        description: usage_at__lte
+        schema:
+          type: string
+      - name: usage_type__name
+        required: false
+        in: query
+        description: usage_type__name
+        schema:
+          type: string
+      - name: usage_type__name__icontains
+        required: false
+        in: query
+        description: usage_type__name__icontains
+        schema:
+          type: string
+      - name: amount__gte
+        required: false
+        in: query
+        description: amount__gte
+        schema:
+          type: string
+      - name: amount__lte
+        required: false
+        in: query
+        description: amount__lte
+        schema:
+          type: string
+      - name: calculated_emissions__gte
+        required: false
+        in: query
+        description: calculated_emissions__gte
+        schema:
+          type: string
+      - name: calculated_emissions__lte
+        required: false
+        in: query
+        description: calculated_emissions__lte
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - Usage
+  /api/v1/logout/:
+    get:
+      security:
+        - bearerAuth: []
+      operationId: listLogouts
+      description: 'Calls Django logout method and delete the Token object
+
+        assigned to the current User object.
+
+
+        Accepts/Returns nothing.'
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ''
+      tags:
+      - Authentication
+    post:
+      security:
+        - bearerAuth: []
+      operationId: createLogout
+      description: 'Calls Django logout method and delete the Token object
+
+        assigned to the current User object.
+
+
+        Accepts/Returns nothing.'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+      tags:
+      - Authentication
+  /api/v1/login/:
+    post:
+      operationId: createLogin
+      description: 'Check the credentials and return the REST Token
+
+        if the credentials are valid and authenticated.
+
+        Calls Django Auth login method to register User ID
+
+        in Django session framework
+
+
+        Accept the following POST parameters: email, password
+
+        Return the REST Framework Token Object''s key.'
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+          description: ''
+      tags:
+      - Authentication
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 300
+        email:
+          type: string
+          format: email
+          maxLength: 255
+      required:
+      - name
+      - email
+    UsageType:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        unit:
+          type: string
+          maxLength: 10
+        factor:
+          type: number
+          minimum: 0
+      required:
+      - name
+      - unit
+      - factor
+    Usage:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+        calculated_emissions:
+          type: number
+          minimum: 0
+        amount:
+          type: number
+          minimum: 0
+        usage_at:
+          type: string
+          format: date-time
+        usage_type:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            name:
+              type: string
+              maxLength: 100
+            unit:
+              type: string
+              maxLength: 10
+            factor:
+              type: number
+              minimum: 0
+          required:
+          - name
+          - unit
+          - factor
+          readOnly: true
+      required:
+      - user
+      - amount
+    UsageCreateUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: string
+          readOnly: true
+        amount:
+          type: number
+          minimum: 0
+        usage_at:
+          type: string
+          format: date-time
+        name:
+          type: string
+          writeOnly: true
+          maxLength: 100
+        unit:
+          type: string
+          writeOnly: true
+          maxLength: 10
+      required:
+      - amount
+      - name
+      - unit
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+      - password

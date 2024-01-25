@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  utilities_api:
+    build: .
+    container_name: utilities-service-api
+    command: python /app/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    environment:
+      - "DJANGO_SECRET_KEY=)*_s#exg*#w+#-xt=vu8b010%%a&p@4edwyj0=(nqq90b9a8*n"
+      - "DJANGO_DEBUG=False"

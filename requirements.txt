@@ -1,0 +1,10 @@
+Django==3.2.5
+djangorestframework==3.12.4
+dj-rest-auth==2.1.9
+django-filter==2.4.0
+pyyaml==5.4.1
+uritemplate==3.0.1
+djangorestframework-simplejwt==4.7.2
+django-cors-headers==3.7.0
+coverage==5.5
+autopep8==1.5.7
